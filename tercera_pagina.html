@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Paquete Premium Activado</title>
+    <!-- Manteniendo la fuente deportiva para consistencia -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================
+           ESTILOS GENERALES (Mobile First)
+           ============================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Recuerda poner tu nueva imagen de fondo con bengalas en la carpeta img */
+            background-image: url('img/inde2.png'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Anton', sans-serif;
+            position: relative;
+        }
+
+        /* Capa oscura para que el texto resalte sobre el fondo rojo de las bengalas */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+
+        .content {
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly; /* Distribuye el espacio verticalmente */
+            height: 80%;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* ============================
+           TEXTO SUPERIOR (Efecto Caída)
+           ============================ */
+        .texto-superior {
+            color: #eeb68a; /* Color durazno/naranja claro de tu diseño */
+            font-size: 2rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+            letter-spacing: 2px;
+            /* Configuración de la animación */
+            opacity: 0; 
+            transform: translateY(-100px); /* Inicia 100px más arriba */
+            animation: slideDown 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 0.2s; /* Espera un poquito antes de caer */
+        }
+
+        @keyframes slideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* Se queda en su posición original */
+            }
+        }
+
+        /* ============================
+           TEXTO INFERIOR (Efecto Borroso -> Nítido)
+           ============================ */
+        .texto-inferior {
+            color: #ffcc00; /* Amarillo brillante */
+            font-size: 2.2rem;
+            line-height: 1.2;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 1);
+            letter-spacing: 1.5px;
+            cursor: pointer; /* Cambia el cursor para indicar que es clickeable */
+            padding: 20px;
+            border-radius: 15px;
+            /* Configuración de la animación */
+            opacity: 0;
+            filter: blur(15px); /* Inicia muy borroso */
+            animation: blurFadeIn 1.5s ease-out forwards;
+            animation-delay: 1.2s; /* Espera a que el primer texto termine de caer */
+            
+            /* Un pequeño efecto al tocarlo para que se sienta interactivo */
+            transition: transform 0.2s, text-shadow 0.2s;
+        }
+
+        .texto-inferior:active {
+            transform: scale(0.95);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+        }
+
+        @keyframes blurFadeIn {
+            0% {
+                opacity: 0;
+                filter: blur(20px);
+                transform: scale(1.1); /* Ligeramente más grande al inicio */
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0px); /* Totalmente nítido */
+                transform: scale(1);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div class="content">
+        <!-- Frase que baja -->
+        <h2 class="texto-superior">PAQUETE PREMIUM ACTIVADO</h2>
+        
+        <!-- Frase que aparece de borroso a nítido (Funciona como botón) -->
+        <h1 class="texto-inferior" id="btn-beneficios">
+            CLICK PARA VER LOS<br>BENEFICIOS INCLUIDOS
+        </h1>
+    </div>
+
+    <script>
+        // ============================
+        // LÓGICA DE JAVASCRIPT
+        // ============================
+        
+        const btnBeneficios = document.getElementById('btn-beneficios');
+
+        // Al hacer click (o tocar en el celular) el texto amarillo, pasamos a la siguiente página
+        btnBeneficios.addEventListener('click', () => {
+            // Sustituye esto por el nombre de tu cuarta página HTML
+            window.location.href = 'cuarta_pagina.html'; 
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>¡Te espero!</title>
+    <!-- Cargamos la librería de Confeti para la explosión final -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* ============================
+           ESTILOS GENERALES (Mobile First)
+           ============================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Mantenemos el fondo de las bengalas */
+            background-image: url('img/inde2.png'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* Esta imagen usa una fuente más tradicional y legible, usaremos sistema/Arial */
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Un poco más oscuro para que resalte el texto */
+            z-index: 0;
+        }
+
+        .content {
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            gap: 25px; /* Separación uniforme entre los bloques de texto */
+        }
+
+        /* Estilo general para el texto amarillo con borde oscuro como en tu imagen */
+        .texto-amarillo {
+            color: #ffcc00;
+            text-shadow: 
+                -1px -1px 0 #000,  
+                 1px -1px 0 #000,
+                -1px  1px 0 #000,
+                 1px  1px 0 #000,
+                 3px  3px 8px rgba(0,0,0,0.9); /* Borde negro + sombra difuminada */
+        }
+
+        /* ============================
+           TEXTO SUPERIOR (Efecto Caída)
+           ============================ */
+        .texto-superior {
+            font-size: 1.8rem;
+            
+            /* Configuración de la animación */
+            opacity: 0; 
+            transform: translateY(-100px); 
+            animation: slideDown 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 0.2s; 
+        }
+
+        @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-100px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================
+           TEXTOS CENTRALES (Efecto Borroso -> Nítido escalonado)
+           ============================ */
+        .texto-central {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            
+            opacity: 0;
+            filter: blur(15px);
+            animation: blurFadeIn 1s ease-out forwards;
+            animation-delay: 1.2s; /* Aparece después de que cae el primer texto */
+        }
+
+        .texto-amo {
+            font-size: 2.2rem;
+            font-weight: bold;
+            
+            opacity: 0;
+            filter: blur(15px);
+            animation: blurFadeIn 1s ease-out forwards;
+            animation-delay: 2s; /* Aparece después de la fecha */
+        }
+
+        /* ============================
+           IMAGEN FINAL (Diablito)
+           ============================ */
+        .imagen-final {
+            width: 120px; /* Solo la carita, más pequeña */
+            margin-top: 10px;
+            filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.8)); 
+            
+            opacity: 0;
+            filter: blur(15px);
+            animation: blurFadeIn 1s ease-out forwards;
+            animation-delay: 2.8s; /* Aparece al final de todo */
+        }
+
+        @keyframes blurFadeIn {
+            0% {
+                opacity: 0;
+                filter: blur(20px);
+                transform: scale(1.1); 
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0px); 
+                transform: scale(1);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div class="content">
+        <!-- 1. Cae primero -->
+        <div class="texto-amarillo texto-superior">
+            Y muy buena compañía
+        </div>
+        
+        <!-- 2. Aparece después -->
+        <div class="texto-amarillo texto-central">
+            Te espero<br>
+            domingo 22 de noviembre<br>
+            14:00
+        </div>
+
+        <!-- 3. Aparece luego -->
+        <div class="texto-amarillo texto-amo">
+            TE AMO ❤️
+        </div>
+
+        <!-- 4. Aparece al final -->
+        <!-- Recuerda guardar solo la carita del diablito sin fondo como cara_diablito.png -->
+        <img src="img/diabli3.png" alt="Diablito" class="imagen-final">
+    </div>
+
+    <script>
+        // ============================
+        // ANIMACIÓN DE CONFETI / FUEGOS ARTIFICIALES
+        // ============================
+        
+        // Función para lanzar una explosión de colores (Rojo, Azul y Amarillo)
+        function lanzarConfeti() {
+            var duration = 3000; // Dura 3 segundos
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                
+                // Colores del equipo
+                var colores = ['#d31a20', '#002c8a', '#ffcc00'];
+
+                // Explosiones aleatorias en la pantalla
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    colors: colores,
+                    origin: { x: randomInRange(0.1, 0.9), y: Math.random() - 0.2 } 
+                }));
+            }, 250);
+        }
+
+        // Ejecutar el confeti al cargar la página
+        window.addEventListener('load', lanzarConfeti);
+    </script>
+</body>
+</html>

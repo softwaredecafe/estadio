@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shucos con mucho Picamas</title>
+    <!-- Fuente deportiva -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================
+           ESTILOS GENERALES (Mobile First)
+           ============================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Mantenemos el fondo de las bengalas */
+            background-image: url('img/inde2.png'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Anton', sans-serif;
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+
+        .content {
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100%;
+            width: 100%;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        /* ============================
+           TEXTO SUPERIOR (Efecto Caída)
+           ============================ */
+        .texto-superior {
+            color: #ffcc00; /* Amarillo brillante */
+            font-size: 2.2rem;
+            line-height: 1.2;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            
+            /* Configuración de la animación */
+            opacity: 0; 
+            transform: translateY(-100px); 
+            animation: slideDown 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 0.2s; 
+        }
+
+        @keyframes slideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================
+           IMAGEN DEL CENTRO (Efecto Borroso -> Nítido)
+           ============================ */
+        .imagen-centro {
+            width: 80%; /* Ajustado para que el diablito se vea de buen tamaño en móvil */
+            max-width: 350px;
+            cursor: pointer;
+            /* Le damos un filtro drop-shadow para que resalte sobre el fondo oscuro */
+            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.6)); 
+            
+            /* Configuración de la animación */
+            opacity: 0;
+            filter: blur(15px);
+            animation: blurFadeIn 1.5s ease-out forwards;
+            animation-delay: 1.2s; /* Espera a que baje el texto */
+            
+            /* Efecto al tocar la imagen */
+            transition: transform 0.2s;
+        }
+
+        .imagen-centro:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes blurFadeIn {
+            0% {
+                opacity: 0;
+                filter: blur(20px) drop-shadow(0px 0px 0px rgba(0,0,0,0));
+                transform: scale(1.1); 
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0px) drop-shadow(0px 10px 15px rgba(0,0,0,0.6)); 
+                transform: scale(1);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div class="content">
+        <!-- Frase que baja -->
+        <h2 class="texto-superior">SHUCOS CON MUCHO<br>PICAMAS</h2>
+        
+        <!-- Imagen que aparece de borroso a nítido -->
+        <!-- Asegúrate de guardar la imagen del diablito con el shuco como un PNG sin fondo llamado "diablito_shuco.png" -->
+        <img src="img/diabli2.gif" alt="Diablito comiendo shuco con Picamas" class="imagen-centro" id="img-shuco">
+    </div>
+
+    <script>
+        // ============================
+        // LÓGICA DE JAVASCRIPT
+        // ============================
+        
+        const imgShuco = document.getElementById('img-shuco');
+
+        // Al hacer click o tocar al diablito, avanzamos a la siguiente página
+        imgShuco.addEventListener('click', () => {
+            // Sustituye esto por el nombre de tu siguiente página
+            window.location.href = 'sexta_pagina.html'; 
+        });
+    </script>
+</body>
+</html>

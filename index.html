@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>¿Aceptas ir al estadio?</title>
+    <!-- Importando una fuente deportiva/impactante similar a la de la imagen -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================
+           ESTILOS GENERALES (Mobile First)
+           ============================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Aquí cargará tu imagen de fondo desde la carpeta img */
+            background-image: url('img/inde.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; /* Evita que la pantalla haga scroll cuando el botón huya */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+        }
+
+        /* Capa oscura opcional para que el texto resalte más sobre el fondo */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+
+        .content {
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .title {
+            color: #eeb68a; /* Color que solicitaste */
+            font-family: 'Anton', sans-serif; /* Fuente tipo estadio */
+            font-size: 2.8rem;
+            text-align: center;
+            line-height: 1.1;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; /* Separación entre los botones */
+            width: 100%;
+        }
+
+        /* ============================
+           BOTÓN ROJO (Animación solicitada)
+           ============================ */
+        .btn-62 {
+            padding: 15px 40px; /* Ligeramente más grande para que sea fácil tocar en móvil */
+            font-size: 22px;
+            font-weight: bold;
+            background: transparent;
+            position: relative;
+            color: #fff;
+            z-index: 1;
+            cursor: pointer;
+            user-select: none;
+            display: inline-block;
+            text-decoration: none;
+            border: none;
+            font-family: 'Anton', sans-serif;
+            border-radius: 50px;
+            letter-spacing: 1px;
+        }
+
+        .btn-62::after,
+        .btn-62::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            z-index: -1;
+            transition: all .4s;
+        }
+
+        .btn-62::before {
+            transform: translate(0%, 0%);
+            width: 100%;
+            height: 100%;
+            background: #960a01; /* Tu color rojo */
+            border-radius: 50px;
+        }
+
+        .btn-62::after {
+            transform: translate(0px, 0px);
+            width: 10px;
+            height: 10px;
+            background: #02015e; /* Tu color azul para el efecto */
+            backdrop-filter: blur(5px);
+            border-radius: 50px;
+        }
+
+        .btn-62:hover::before,
+        .btn-62:focus::before {
+            transform: translate(5%, 20%);
+            width: 10px;
+            height: 10px;
+        }
+
+        .btn-62:hover::after,
+        .btn-62:focus::after {
+            border-radius: 50px;
+            transform: translate(0, 0);
+            width: 100%;
+            height: 100%;
+        }
+
+        .btn-62:active::after {
+            transition: 0s;
+            transform: translate(0, 5%);
+        }
+
+        /* ============================
+           BOTÓN AZUL (El que escapa)
+           ============================ */
+        .btn-blue {
+            padding: 15px 40px;
+            font-size: 22px;
+            font-weight: bold;
+            background: #02015e; /* Azul oscuro */
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 1px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
+            transition: transform 0.1s; /* Pequeño efecto suave al moverse */
+            z-index: 10; /* Asegura que siempre esté por encima */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div class="content">
+        <h1 class="title">¿Aceptas ir al<br>estadio conmigo?</h1>
+        
+        <div class="buttons-container" id="buttons-container">
+            <!-- Botón Rojo -->
+            <button class="btn-62" id="btn-si">SI</button>
+            <!-- Botón Azul (Nota: en tu imagen ambos decían "SI", lo cual es un chiste genial. Yo le puse "NO", pero cámbialo a "SI" si quieres esa trampa visual) -->
+            <button class="btn-blue" id="btn-no">NO</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================
+        // LÓGICA DE JAVASCRIPT
+        // ============================
+        
+        const btnSi = document.getElementById('btn-si');
+        const btnNo = document.getElementById('btn-no');
+
+        // ACCIÓN BOTÓN ROJO (Cambia a la siguiente página)
+        btnSi.addEventListener('click', () => {
+            // Aquí pones el nombre de tu siguiente página HTML
+            window.location.href = 'siguiente_pagina.html'; 
+        });
+
+        // ACCIÓN BOTÓN AZUL (Huye al intentar tocarlo)
+        const moveButton = (e) => {
+            // Evitamos que el clic se registre si lo tocan muy rápido en el móvil
+            if (e) e.preventDefault(); 
+
+            // Cambiamos a posición absoluta (fija en la pantalla) para que se mueva libremente
+            btnNo.style.position = 'fixed';
+            
+            // Obtenemos el tamaño de la pantalla
+            const winWidth = window.innerWidth;
+            const winHeight = window.innerHeight;
+            
+            // Obtenemos el tamaño del botón para que no se salga de los bordes
+            const btnWidth = btnNo.offsetWidth;
+            const btnHeight = btnNo.offsetHeight;
+            
+            // Calculamos coordenadas aleatorias seguras
+            const randomX = Math.floor(Math.random() * (winWidth - btnWidth));
+            const randomY = Math.floor(Math.random() * (winHeight - btnHeight));
+            
+            // Aplicamos las nuevas coordenadas
+            btnNo.style.left = `${randomX}px`;
+            btnNo.style.top = `${randomY}px`;
+        };
+
+        // Soporte para cuando pasen el mouse (Desktop)
+        btnNo.addEventListener('mouseover', moveButton);
+        
+        // Soporte específico para cuando intenten tocar la pantalla (Mobile)
+        btnNo.addEventListener('touchstart', moveButton);
+        
+        // Por si logran darle click de alguna manera muy rápida
+        btnNo.addEventListener('click', moveButton);
+
+    </script>
+</body>
+</html>
